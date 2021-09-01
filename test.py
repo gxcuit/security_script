@@ -75,5 +75,7 @@ def main():
                 print('{} success'.format(ip))
             else:
                 print('{} failed'.format(ip))
+    with open('./data/res.json','w'):
+        json.dump(ip_li)
 if __name__ == '__main__':
     main()
