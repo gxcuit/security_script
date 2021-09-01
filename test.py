@@ -38,7 +38,7 @@ def test_vun(ip,passdir=''):
                 return False
             if '密码' in resp.text:
                 if index%100==0: print('{} password incorrect,retrying {}'.format(ip,index))
-                return False
+                continue
             if resp.status_code==200:
                 return {'ip':ip,'password':password}
             else:
