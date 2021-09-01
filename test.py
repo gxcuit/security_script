@@ -71,6 +71,7 @@ def main():
             else:
                 print('{} failed'.format(ip))
     with open('./data/res.json','w') as f:
-        json.dump(ip_li,f)
+        print('total success{}'.format(len(success_ip)))
+        json.dump(success_ip,f)
 if __name__ == '__main__':
     main()
